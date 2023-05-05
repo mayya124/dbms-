@@ -1,0 +1,141 @@
+mysql> create database employee;
+Query OK, 1 row affected (0.01 sec)
+mysql> use employee;
+Database changed
+mysql> create table employee(eid int primary key,ename varchar(10),desig varchar(20),branch varchar(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc employee;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| eid    | int         | NO   | PRI | NULL    |       |
+| ename  | varchar(10) | YES  |     | NULL    |       |
+| desig  | varchar(20) | YES  |     | NULL    |       |
+| branch | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into employee values(10,'dinesh','manager','chennai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++-----+--------+---------+---------+
+| eid | ename  | desig   | branch  |
++-----+--------+---------+---------+
+|  10 | dinesh | manager | chennai |
++-----+--------+---------+---------+
+1 row in set (0.00 sec)
+
+mysql>  insert into employee values(10,'suraaj','pune','hyderabad');
+ERROR 1062 (23000): Duplicate entry '10' for key 'employee.PRIMARY'
+mysql>  insert into employee values(11,'suraaj','pune','hyderabad');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++-----+--------+---------+-----------+
+| eid | ename  | desig   | branch    |
++-----+--------+---------+-----------+
+|  10 | dinesh | manager | chennai   |
+|  11 | suraaj | pune    | hyderabad |
++-----+--------+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> create table workers(wid int,wname varchar(10),phoneno int,primary key(wid),foreign key(wid) references employee(eid));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc workers;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| wid     | int         | NO   | PRI | NULL    |       |
+| wname   | varchar(10) | YES  |     | NULL    |       |
+| phoneno | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from workers;
+Empty set (0.00 sec)
+
+mysql> insert into workers values(10,'lokesh',45676);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from workers;
++-----+--------+---------+
+| wid | wname  | phoneno |
++-----+--------+---------+
+|  10 | lokesh |   45676 |
++-----+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into workers values(15,'lokesh',45676);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`employee`.`workers`, CONSTRAINT `workers_ibfk_1` FOREIGN KEY (`wid`) REFERENCES `employee` (`eid`))
+mysql> insert into workers values(11,'bhuvanesh',45676);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from workers;
++-----+-----------+---------+
+| wid | wname     | phoneno |
++-----+-----------+---------+
+|  10 | lokesh    |   45676 |
+|  11 | bhuvanesh |   45676 |
++-----+-----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> create table persons values(id int,name varchar(20),age int,check(age>=18));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(id int,name varchar(20),age int,check(age>=18))' at line 1
+mysql>  create table persons(id int,name varchar(20),age int,check(age>=18));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc persons;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | YES  |     | NULL    |       |
+| name  | varchar(20) | YES  |     | NULL    |       |
+| age   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into persons values(110,'rrr',16);
+ERROR 3819 (HY000): Check constraint 'persons_chk_1' is violated.
+mysql>  insert into persons values(110,'rrr',19);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from persons;
++------+------+------+
+| id   | name | age  |
++------+------+------+
+|  110 | rrr  |   19 |
++------+------+------+
+1 row in set (0.00 sec)
+
+mysql> create table person(id int not null,name varchar(10) not null,age int,unique(id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc person;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(10) | NO   |     | NULL    |       |
+| age   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into person values(110,'rrr',19);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into person values(110,'rrr',19);
+ERROR 1062 (23000): Duplicate entry '110' for key 'person.id'
+mysql> insert into person values(111,'rrr',19);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from person;
++-----+------+------+
+| id  | name | age  |
++-----+------+------+
+| 110 | rrr  |   19 |
+| 111 | rrr  |   19 |
++-----+------+------+
+2 rows in set (0.00 sec)
