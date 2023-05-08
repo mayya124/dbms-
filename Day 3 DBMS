@@ -1,0 +1,278 @@
+mysql> use dinesh;
+Database changed
+mysql> desc dinesh;
+ERROR 1146 (42S02): Table 'dinesh.dinesh' doesn't exist
+mysql> use dinesh;
+Database changed
+mysql> select dinesh;
+ERROR 1054 (42S22): Unknown column 'dinesh' in 'field list'
+mysql> select person;
+ERROR 1054 (42S22): Unknown column 'person' in 'field list'
+mysql> show tables;
++------------------+
+| Tables_in_dinesh |
++------------------+
+| bank             |
+| employe          |
+| person           |
+| persons          |
+| workers          |
++------------------+
+5 rows in set (0.01 sec)
+
+mysql> select * from person;
++-------+-----------+------+
+| id    | name      | age  |
++-------+-----------+------+
+| 23456 | dinu      |   16 |
+| 23457 | mahi      |   20 |
+| 23458 | varun     |   21 |
+| 23459 | akhil sai |   22 |
++-------+-----------+------+
+4 rows in set (0.01 sec)
+
+mysql> select * from person where age<=17;
++-------+------+------+
+| id    | name | age  |
++-------+------+------+
+| 23456 | dinu |   16 |
++-------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from person;
++-------+-----------+------+
+| id    | name      | age  |
++-------+-----------+------+
+| 23456 | dinu      |   16 |
+| 23457 | mahi      |   20 |
+| 23458 | varun     |   21 |
+| 23459 | akhil sai |   22 |
++-------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> select * from person;
++-------+-----------+------+
+| id    | name      | age  |
++-------+-----------+------+
+| 23456 | dinu      |   16 |
+| 23457 | mahi      |   20 |
+| 23458 | varun     |   21 |
+| 23459 | akhil sai |   22 |
++-------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from person where name like '2345_';
+Empty set (0.00 sec)
+
+mysql> select * from person where name like 'din__h'
+    -> select * from person where name like 'din__h';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from person where name like 'din__h'' at line 2
+mysql> select * from person where name like 'di_es';
+Empty set (0.00 sec)
+
+mysql> select * from person where name like 'di_esh';
+Empty set (0.00 sec)
+
+mysql> select * from person where name like 'di_u';
++-------+------+------+
+| id    | name | age  |
++-------+------+------+
+| 23456 | dinu |   16 |
++-------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from person where id between 23456 and 23456;
++-------+------+------+
+| id    | name | age  |
++-------+------+------+
+| 23456 | dinu |   16 |
++-------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from person where id not between 23456 and 23456;
++-------+-----------+------+
+| id    | name      | age  |
++-------+-----------+------+
+| 23457 | mahi      |   20 |
+| 23458 | varun     |   21 |
+| 23459 | akhil sai |   22 |
++-------+-----------+------+
+3 rows in set (0.00 sec)
+
+mysql> alter table person add salary;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> alter table person add salary int;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * person;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'person' at line 1
+mysql> select * from person;
++-------+-----------+------+--------+
+| id    | name      | age  | salary |
++-------+-----------+------+--------+
+| 23456 | dinu      |   16 |   NULL |
+| 23457 | mahi      |   20 |   NULL |
+| 23458 | varun     |   21 |   NULL |
+| 23459 | akhil sai |   22 |   NULL |
++-------+-----------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update person set salary=20000 where age=16;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update person set salary=30000 where age>=20;
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from person;
++-------+-----------+------+--------+
+| id    | name      | age  | salary |
++-------+-----------+------+--------+
+| 23456 | dinu      |   16 |  20000 |
+| 23457 | mahi      |   20 |  30000 |
+| 23458 | varun     |   21 |  30000 |
+| 23459 | akhil sai |   22 |  30000 |
++-------+-----------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from person where slary in (10000,20000);
+ERROR 1054 (42S22): Unknown column 'slary' in 'where clause'
+mysql> select * from person where salary in (10000,20000);
++-------+------+------+--------+
+| id    | name | age  | salary |
++-------+------+------+--------+
+| 23456 | dinu |   16 |  20000 |
++-------+------+------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from person where id between 23456 to 23458 and salary in(20000,30000) order by name desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to 23458 and salary in(20000,30000) order by name desc' at line 1
+mysql> select * from person where id between 23456 to 23458 and salary in(20000,30000) order by id desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to 23458 and salary in(20000,30000) order by id desc' at line 1
+mysql> select * from person where id between 23456 and 23458 and salary in(20000,30000) order by id desc;
++-------+-------+------+--------+
+| id    | name  | age  | salary |
++-------+-------+------+--------+
+| 23458 | varun |   21 |  30000 |
+| 23457 | mahi  |   20 |  30000 |
+| 23456 | dinu  |   16 |  20000 |
++-------+-------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from person where id between 23456 and 23458 and salary in(20000,30000) order by name asc;
++-------+-------+------+--------+
+| id    | name  | age  | salary |
++-------+-------+------+--------+
+| 23456 | dinu  |   16 |  20000 |
+| 23457 | mahi  |   20 |  30000 |
+| 23458 | varun |   21 |  30000 |
++-------+-------+------+--------+
+3 rows in set (0.01 sec)
+
+mysql> select count(name) from person where name'dinu';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''dinu'' at line 1
+mysql> select count(name) from person where name='dinu';
++-------------+
+| count(name) |
++-------------+
+|           1 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select min(name) from person;
++-----------+
+| min(name) |
++-----------+
+| akhil sai |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select max(name0 from person;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from person' at line 1
+mysql> select max(name) from person;
++-----------+
+| max(name) |
++-----------+
+| varun     |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select min(salary) from person;
++-------------+
+| min(salary) |
++-------------+
+|       20000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from person;
++-------------+
+| max(salary) |
++-------------+
+|       30000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) from person;
++-------------+
+| sum(salary) |
++-------------+
+|      110000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from person;
++-------------+
+| avg(salary) |
++-------------+
+|  27500.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(salary),salary  from person group by salary;
++---------------+--------+
+| count(salary) | salary |
++---------------+--------+
+|             1 |  20000 |
+|             3 |  30000 |
++---------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select count(salary)  from person group by salary;
++---------------+
+| count(salary) |
++---------------+
+|             1 |
+|             3 |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select salary, count(salary)  from person group by salary;
++--------+---------------+
+| salary | count(salary) |
++--------+---------------+
+|  20000 |             1 |
+|  30000 |             3 |
++--------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select salary, count(salary)  from person group by salary order by name asc;
++--------+---------------+
+| salary | count(salary) |
++--------+---------------+
+|  20000 |             1 |
+|  30000 |             3 |
++--------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select salary, count(salary)  from person group by salary order by salary desc;
++--------+---------------+
+| salary | count(salary) |
++--------+---------------+
+|  30000 |             3 |
+|  20000 |             1 |
++--------+---------------+
+2 rows in set (0.00 sec)
